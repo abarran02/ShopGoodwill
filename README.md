@@ -1,5 +1,5 @@
 # ShopGoodwill Python
-This project is for educational purposes only. ShopGoodwill.com is an online auction marketplace for Goodwill stores to expand their audience. However, the site does not provide an official API. However, it uses a POST request system that allows imitating user interaction and capturing responses.
+This project is for educational purposes only. ShopGoodwill.com is an online auction marketplace for Goodwill stores to expand their audience. While the site does not provide an official API, it uses a POST request system that allows imitating user interaction and capturing responses.
 
 ### Installation
 Running this script requires bs4, requests, and requests-html. These can be installed using:
