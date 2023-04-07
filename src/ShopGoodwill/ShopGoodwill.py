@@ -1,7 +1,7 @@
 import requests
 import json
-from ShopGoodwillItem import ShopGoodwillItem
-from ShopGoodwillPost import ShopGoodwillPost
+from .ShopGoodwillItem import ShopGoodwillItem
+from .ShopGoodwillPost import ShopGoodwillPost
 from bs4 import BeautifulSoup
 from re import sub
 from time import sleep

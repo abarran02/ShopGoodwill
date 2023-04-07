@@ -1,5 +1,5 @@
 import json
-from ShopGoodwillPost import ShopGoodwillPost
+from .ShopGoodwillPost import ShopGoodwillPost
 from bs4 import BeautifulSoup
 from requests_html import HTMLSession
 from re import sub
