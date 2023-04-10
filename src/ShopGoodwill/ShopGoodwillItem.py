@@ -1,8 +1,10 @@
 import json
-from .ShopGoodwillPost import ShopGoodwillPost
+from re import sub
+
 from bs4 import BeautifulSoup
 from requests_html import HTMLSession
-from re import sub
+
+from .ShopGoodwillPost import ShopGoodwillPost
 
 class ShopGoodwillItem(object):
     def __init__(self, itemid: str = None, item_details: dict = None):

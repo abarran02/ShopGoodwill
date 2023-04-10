@@ -2,6 +2,21 @@
 
 This project is for educational purposes only. ShopGoodwill.com is an online auction marketplace for Goodwill stores to expand their audience. While the site does not provide an official API, it uses a POST request system that allows imitating user interaction and capturing responses.
 
+## Installation
+
+Ensure you have the latest version of PyPA’s build installed:
+
+```bash
+python3 -m pip install --upgrade build
+```
+
+To build and install the package, run the following commands from the base directory:
+
+```bash
+python3 -m build
+pip install dist/ShopGoodwill-1.0.0-py3-none-any.whl
+```
+
 ## ShopGoodwill class
 
 The ShopGoodwill class is your primary interface with the standard ShopGoodwill requests.
