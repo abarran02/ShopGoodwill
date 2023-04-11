@@ -20,10 +20,10 @@ pip install dist/ShopGoodwill-1.0.0-py3-none-any.whl
 ## ShopGoodwill class
 
 The ShopGoodwill class is your primary interface with the standard ShopGoodwill requests.
-ShopGoodwill provides a numeric identifier for categories and store location that can be used to narrow your search. These can be viewed easily through the ShopGoodwill class:
+ShopGoodwill provides a numeric identifier for categories and store location that can be used to narrow your search. These can be viewed easily through the ShopGoodwill object class:
 
 ```Python
-import ShopGoodwill
+from ShopGoodwill import ShopGoodwill
 ShopGoodwill.show_categories(show_children=True)
 ShopGoodwill.show_locations()
 ```
