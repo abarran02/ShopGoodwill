@@ -1,4 +1,4 @@
-from source.ShopGoodwill import ShopGoodwill
+from src.ShopGoodwill import ShopGoodwill
 
 if __name__ == "__main__":
     sg = ShopGoodwill(filters={'searchOneCentShippingOnly': True}, max_results=1, include_details=True)

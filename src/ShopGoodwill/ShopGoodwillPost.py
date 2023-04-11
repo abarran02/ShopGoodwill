@@ -1,8 +1,11 @@
 import requests
 from fake_useragent import UserAgent
+from importlib_resources import open_text
+
 
 class ShopGoodwillPost(object):
-    with open('fallback_ua.txt', 'r') as f:
+
+    with open_text('ShopGoodwill', 'fallback_ua.txt') as f:
         fallback = f.readline()
         ua = UserAgent(fallback=fallback)
 

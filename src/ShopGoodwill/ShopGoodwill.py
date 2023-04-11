@@ -1,16 +1,20 @@
-import requests
 import json
-from ShopGoodwillItem import ShopGoodwillItem
-from ShopGoodwillPost import ShopGoodwillPost
-from bs4 import BeautifulSoup
+from datetime import date
 from re import sub
 from time import sleep
-from datetime import date
+
+import requests
+from bs4 import BeautifulSoup
+from importlib_resources import open_text
+
+from .ShopGoodwillItem import ShopGoodwillItem
+from .ShopGoodwillPost import ShopGoodwillPost
+
 
 class ShopGoodwill(object):
 
     # load request template and update current date
-    with open('search_request.json', 'r') as template:
+    with open_text('ShopGoodwill', 'search_request.json') as template:
         request_template = json.load(template)
     request_template['closedAuctionEndingDate'] = date.today().strftime("%m/%d/%Y")
 
@@ -154,8 +158,10 @@ class ShopGoodwill(object):
     def show_categories(cls, show_children=False) -> None:
         # check whether categories have been found yet this session
         if cls.categories == None:
-            cls.__update_gw_ids(cls)
-        
+            success = cls.__update_gw_ids(cls)
+            if not success:
+                raise RuntimeWarning("Failed to retrieve and parse ShopGoodwill sellers or categories. Check your internet connection.")
+
         # iterate over cateogires for printing
         for elem in cls.categories:
             print(elem['categoryId'], elem['shortName'])
@@ -169,7 +175,9 @@ class ShopGoodwill(object):
     def show_locations(cls):
         # check whether sellers have been found yet this session
         if cls.sellers == None:
-            cls.__update_gw_ids()
+            success = cls.__update_gw_ids(cls)
+            if not success:
+                raise RuntimeWarning("Failed to retrieve and parse ShopGoodwill sellers or categories. Check your internet connection.")
 
         for elem in cls.sellers:
             print(elem['sellerId'], elem['searchFilterName'])

@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project.urls]
+"Homepage" = "https://github.com/abarran02/ShopGoodwill"
+
+[project]
+name = "ShopGoodwill"
+version = "1.0.0"
+authors = [
+  { name="Alec Barran", email="alexanderbarran@gmail.com" },
+]
+description = "Python package for interfacing with ShopGoodwill.com "
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "bs4",
+    "requests",
+    "requests-html"
+]
+classifiers = [
+    "Programming Language :: Python :: 3.9",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+ShopGoodwill = ["fallback_ua.txt", "search_request.json"]
