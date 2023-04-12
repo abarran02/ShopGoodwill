@@ -6,8 +6,22 @@ from requests_html import HTMLSession
 
 from .ShopGoodwillPost import ShopGoodwillPost
 
+
 class ShopGoodwillItem(object):
-    def __init__(self, itemid: str = None, item_details: dict = None):
+    """
+    Item object which expands on the basic listing information provided by a ShopGoodwill search query by pulling the item's listing page.
+    
+    The initialized object will have the following data members:
+    * itemid `str`
+    * shipping `dict`: stores shipping prices with keys `shipping`, `handling`, and `total`. Updated by `calculate_shipping()`.
+    * item_details `dict`: contains item listing information. Updated with `get_item_details()`.
+    """
+    def __init__(self, itemid: str, item_details: dict = None):
+        """
+        itemid `str`: item listing unique identifier, string as it may start with 0
+
+        item_details `dict`: provided by a ShopGoodwill object query
+        """
         self.itemid = itemid
         self.shipping = { 'shipping': -1, 'handling': -1, 'total': -1 }
         self.item_details = item_details
@@ -18,6 +32,7 @@ class ShopGoodwillItem(object):
             raise AttributeError("ShopGoodwillItem object has no itemid set")
 
     def get_item_details(self) -> None:
+        """Retrieve more detailed item listing information from the item's page and update the `item_details` data member"""
         self.__checkId()
 
         # get item listing page
@@ -54,6 +69,7 @@ class ShopGoodwillItem(object):
             self.shipping['total'] = 0.01 + self.shipping['handling']
 
     def calculate_shipping(self, zip_code: str) -> float:
+        """Calculate cost of shipping item to the given zip code"""
         self.__checkId()
 
         # send a POST request to ShopGoodwill for shipping cost
@@ -72,9 +88,9 @@ class ShopGoodwillItem(object):
         # parse shipping, handling, and total
         soup = BeautifulSoup(post_response.content, 'html.parser')
         shipping = soup.find(id='shipping-span').get_text()
-        self.shipping['shipping'] = self.strip_price(shipping)
+        self.shipping['shipping'] = strip_price(shipping)
         handling = soup.find_all('p')[-2].get_text()
-        self.shipping['handling'] = self.strip_price(handling)
+        self.shipping['handling'] = strip_price(handling)
 
         # should be faster to calculate this than scrape the HTML
         self.shipping['total'] = self.shipping['shipping'] + self.shipping['handling']
@@ -94,7 +110,6 @@ class ShopGoodwillItem(object):
 
         # True if status_code < 400, else False
         return post_response.ok
-    
-    @classmethod
-    def strip_price(self, price: str) -> float:
-        return float(sub(r'[^\d.]', '', price))
+
+def strip_price(price: str) -> float:
+    return float(sub(r'[^\d.]', '', price))

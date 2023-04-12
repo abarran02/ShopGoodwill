@@ -11,6 +11,7 @@ class ShopGoodwillPost(object):
 
     @classmethod
     def post(cls, api_url: str, json: dict, cookies: dict = None, user_agent: str = ua) -> requests.Response:
+        """Interface for `reqeusts.post()` but including a default user agent"""
         if user_agent == cls.ua:
             headers = {'User-Agent': cls.ua.chrome}
         else:

@@ -28,7 +28,7 @@ ShopGoodwill.show_categories(show_children=True)
 ShopGoodwill.show_locations()
 ```
 
-Further filters are stored in ``source/search_request.json``, which is used for a POST request to ShopGoodwill. All of these filters can be viewed using:
+Further filters are stored in `src/ShopGoodwill/search_request.json`, which is used for a POST request to ShopGoodwill. All of these filters can be viewed using:
 
 ```Python
 ShopGoodwill.show_filters()
@@ -49,17 +49,17 @@ The options for the ShopGoodwill object and request include:
 * include_details (bool)
   * This makes an additional request using ShopGoodwillItem for more detailed information
 * sleeps (int)
-  * Time in seconds to wait between include_details requests to avoid rate limiting
+  * Time in seconds to wait between `include_details` requests to avoid rate limiting
 * filters (dict)
-  * Overrides any attribute of search_request.json
-  * Search query text is controlled by this dict using the "searchText" key
+  * Overrides any attribute of `search_request.json`
+  * Search query text is controlled by this dict using the `searchText` key
 
 After the initialization query, the ShopGoodwill object will have the following data members:
 
 * items
   * A list of all ShopGoodwillItem objects returned by the search query
 * result_count
-  * A count of the total number of items matched to the search query. This may exceed max_results
+  * A count of the total number of items matched to the search query. This may exceed `max_results`
 
 ## ShopGoodwillItem class
 
@@ -87,3 +87,9 @@ A ShopGoodwillItem object has the following data members:
 ## ShopGoodwillPost class
 
 This class is primarily for usage by the ShopGoodwill and ShopGoodwillItem classes, but provides some additional functionality to the user. One may supply cookies, or override the user agent used for the POST requests.
+
+```Python
+from ShopGoodwill import ShopGoodwillPost
+# True if status_code < 400, else False
+post_response = ShopGoodwillPost.post(api_url, json_request, cookies=None, user_agent=ua)
+```

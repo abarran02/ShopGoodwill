@@ -12,6 +12,15 @@ from .ShopGoodwillPost import ShopGoodwillPost
 
 
 class ShopGoodwill(object):
+    """
+    ShopGoodwill object for interfacing with ShopGoodwill.com
+    
+    Initializing a ShopGoodwill object will automatically make a request to the ShopGoodwill API.
+    This request is defined by a default search request JSON which may be accessed by the show_filters() function.
+    After the initialization query, the ShopGoodwill object will have the following data members:
+    * items: a list of all ShopGoodwillItem objects returned by the search query
+    * result_count: a count of the total number of items matched to the search query. This may exceed max_results
+    """
 
     # load request template and update current date
     with open_text('ShopGoodwill', 'search_request.json') as template:
@@ -24,6 +33,18 @@ class ShopGoodwill(object):
 
     def __init__(self, filters: dict = {}, category: int = 0, 
                  include_details: bool = False, sleeps: int = 0, max_results: int = float('inf')):
+        """
+        category `int`: item category retrievable from show_categories()
+
+        max_results `int`
+
+        include_details `bool`: makes an additional request using ShopGoodwillItem for more detailed information
+        
+        sleeps `int`: time in seconds to wait between include_details requests to avoid rate limiting
+        
+        filters `dict`: Overrides any attribute of `search_request.json`, search query text is controlled by this dict using the "searchText" key
+        """
+        
         self.items = []
 
         # make API request for item listings
@@ -156,11 +177,17 @@ class ShopGoodwill(object):
 
     @classmethod
     def show_categories(cls, show_children=False) -> None:
+        """
+        Show all valid ShopGoodwill categories, each represented as an integer
+        
+        show_children `bool`: specify whether to show subcategories, such as "Baby" from "Clothing"
+        """
+        
         # check whether categories have been found yet this session
         if cls.categories == None:
             success = cls.__update_gw_ids(cls)
             if not success:
-                raise RuntimeWarning("Failed to retrieve and parse ShopGoodwill sellers or categories. Check your internet connection.")
+                raise RuntimeWarning('Failed to retrieve and parse ShopGoodwill sellers or categories. Check your internet connection.')
 
         # iterate over cateogires for printing
         for elem in cls.categories:
@@ -173,6 +200,8 @@ class ShopGoodwill(object):
     
     @classmethod
     def show_locations(cls):
+        """Show all participating ShopGoodwill locations"""
+        
         # check whether sellers have been found yet this session
         if cls.sellers == None:
             success = cls.__update_gw_ids(cls)
@@ -184,6 +213,8 @@ class ShopGoodwill(object):
 
     @classmethod
     def show_filters(cls):
+        """Show all valid search filters"""
+
         print("Search filters and default value:")
         for item in cls.request_template.items():
             if type(item[1]) is str:
